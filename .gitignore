@@ -174,33 +174,3 @@ import requests
 import sys
 import os
 
-GITHUB_USER = "lilscorfy"
-
-def check_follow(username):
-    url = f"https://api.github.com/users/{username}/following"
-    response = requests.get(url)
-    
-    if response.status_code != 200:
-        print("\033[91m[ERROR] Invalid GitHub username or API limit reached.\033[0m")
-        sys.exit(1)
-    
-    following_list = [user['login'] for user in response.json()]
-    
-    if GITHUB_USER in following_list:
-        print("\033[92m[✓] You follow @lilscorfy! Installing WebDev...\033[0m")
-    else:
-        print("\033[91m[✗] You must follow @lilscorfy on GitHub to use WebDev.\033[0m")
-        sys.exit(1)
-
-def main():
-    username = input("Enter your GitHub username: ").strip()
-    check_follow(username)
-    
-    # Proceed with installation
-    os.system("pip install -r requirements.txt")
-    os.system("pip install .")
-    print("\033[92m[✓] WebDev installed successfully!\033[0m")
-    print("\nRun 'webdev' to start.")
-
-if __name__ == "__main__":
-    main()
